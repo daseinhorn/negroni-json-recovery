@@ -3,12 +3,13 @@ package recovery
 import (
 	"bytes"
 	"fmt"
-	"github.com/codegangsta/negroni"
-	"github.com/unrolled/render"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"runtime"
+
+	"github.com/codegangsta/negroni"
+	"github.com/unrolled/render"
 )
 
 // Formatter lets you specify any arbitrary interface based on the
@@ -38,10 +39,10 @@ var DefaultFormatter = func(errMsg string, stack []byte, file string, line int, 
 }
 
 type jsonPanicError struct {
-	Code   int           `json:",omitempty"` // the http response code
-	Short  string        `json:",omitempty"` // a short explanation of the response (usually one or two words). for internal use only
-	Errors []interface{} `json:",omitempty"` // any errors that may have occured with the request and should be displayed to the user
-	From   string        `json:",omitempty"` // the file and line number from which the error originated
+	Code   int           `json:"code,omitempty"`   // the http response code
+	Short  string        `json:"short,omitempty"`  // a short explanation of the response (usually one or two words). for internal use only
+	Errors []interface{} `json:"errors,omitempty"` // any errors that may have occured with the request and should be displayed to the user
+	From   string        `json:"from,omitempty"`   // the file and line number from which the error originated
 }
 
 func (je jsonPanicError) Error() string {
