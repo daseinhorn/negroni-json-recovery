@@ -38,14 +38,14 @@ var DefaultFormatter = func(errMsg string, stack []byte, file string, line int, 
 	return newJSONPanicError(errMsg, fullMessages, file, line)
 }
 
-type jsonPanicError struct {
+type JSONPanicError struct {
 	Code   int           `json:"code,omitempty"`   // the http response code
 	Short  string        `json:"short,omitempty"`  // a short explanation of the response (usually one or two words). for internal use only
 	Errors []interface{} `json:"errors,omitempty"` // any errors that may have occured with the request and should be displayed to the user
 	From   string        `json:"from,omitempty"`   // the file and line number from which the error originated
 }
 
-func (je jsonPanicError) Error() string {
+func (je JSONPanicError) Error() string {
 	if len(je.Errors) == 0 {
 		return "Unknown error"
 	} else if len(je.Errors) == 1 {
@@ -55,8 +55,8 @@ func (je jsonPanicError) Error() string {
 	}
 }
 
-func newJSONPanicError(errMsg string, fullMessages bool, file string, line int) jsonPanicError {
-	e := jsonPanicError{
+func newJSONPanicError(errMsg string, fullMessages bool, file string, line int) JSONPanicError {
+	e := JSONPanicError{
 		Code:   500,
 		Short:  "internalError",
 		Errors: []interface{}{errMsg},
